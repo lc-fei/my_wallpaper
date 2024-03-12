@@ -56,7 +56,11 @@
 				<template #name>专题精选</template>
 				<template #custom>More+</template>
 			</common-title>
+			<view class="body">
+				<theme-item v-for="item in 8"></theme-item>
+			</view>
 		</view>
+
 	</view>
 </template>
 
@@ -157,6 +161,14 @@
 		}
 
 
+	}
+
+
+	.theme {
+		.body {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+		}
 	}
 
 	swiper-active {

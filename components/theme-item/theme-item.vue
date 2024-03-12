@@ -1,6 +1,8 @@
 <template>
 	<view>
+		<view class="theme-item">
 
+		</view>
 	</view>
 </template>
 
@@ -8,5 +10,5 @@
 </script>
 
 <style scoped lang="scss">
-
+	.theme-item {}
 </style>
