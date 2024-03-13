@@ -20,6 +20,7 @@
 		flex-wrap: nowrap;
 		padding: 0 30rpx;
 		align-items: center;
+		margin: 25rpx 0 15rpx 0;
 
 		.name {
 			font-size: 40rpx;

@@ -7,19 +7,24 @@
 			}
 		},
 		{
-			"path" : "pages/classlist/classlist",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/classify/classify",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/user/user",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/classlist/classlist",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			}
 		}
 	],
@@ -34,15 +39,14 @@
 	"tabBar": {
 		"color": "#9799a5",
 		"selectedColor": "#28B389",
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/index/index",
 				"text": "首页",
 				"iconPath": "static/images/tabBar/home.png",
 				"selectedIconPath": "static/images/tabBar/home-h.png"
 			},
 			{
-				"pagePath": "pages/classlist/classlist",
+				"pagePath": "pages/classify/classify",
 				"text": "分类",
 				"iconPath": "static/images/tabBar/classify.png",
 				"selectedIconPath": "static/images/tabBar/classify-h.png"

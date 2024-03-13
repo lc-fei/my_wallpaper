@@ -58,6 +58,7 @@
 			</common-title>
 			<view class="body">
 				<theme-item v-for="item in 8"></theme-item>
+				<theme-item :isMore="true"></theme-item>
 			</view>
 		</view>
 
@@ -77,6 +78,7 @@
 			height: 345rpx;
 			width: 750rpx;
 			overflow: hidden;
+			border-radius: 20rpx;
 
 			swiper-item {
 				border-radius: 20rpx;
@@ -166,8 +168,11 @@
 
 	.theme {
 		.body {
+			width: 750rpx;
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr;
+			gap: 10rpx;
+			padding: 0 30rpx 30rpx 30rpx;
 		}
 	}
 

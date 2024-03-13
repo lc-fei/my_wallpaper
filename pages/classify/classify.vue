@@ -1,6 +1,6 @@
 <template>
 	<view>
-		我是用户页面
+		我是分类页面
 	</view>
 </template>
 
