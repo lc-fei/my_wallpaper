@@ -5,6 +5,9 @@
 	padding: 0;
 }
 
-/* view{
-	border: 1px solid red;
-} */
+.colorBg {
+	min-height: 100vh;
+	background:
+		linear-gradient(to bottom, transparent, #fff 400rpx),
+		linear-gradient(to right, #beecd8, 20%, #f4e2d8 80%);
+}

@@ -1,5 +1,5 @@
 <template>
-	<view class="classify">
+	<view class="classify colorBg">
 		<view class="theme">
 			<view class="body">
 				<theme-item v-for="item in 15"></theme-item>

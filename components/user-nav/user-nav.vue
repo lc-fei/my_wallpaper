@@ -2,7 +2,7 @@
 	<view class="user-nav">
 		<navigator :url="url">
 			<view class="left">
-				<uni-icons :type="iconName" size="25" style="margin-right: 10rpx;"></uni-icons>
+				<uni-icons :type="iconName" size="25" style="margin-right: 10rpx;" class="big-uni-icons"></uni-icons>
 				<view class="text">{{text}}</view>
 			</view>
 			<view class="right">

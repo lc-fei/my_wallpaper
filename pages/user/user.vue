@@ -1,5 +1,5 @@
 <template>
-	<view class="userLayout">
+	<view class="userLayout colorBg">
 		<view class="head">
 			<view class="avatar">
 				<image src="../../static/images/xxmLogo.png" mode="aspectFill"></image>
@@ -69,6 +69,12 @@
 		align-items: center;
 		justify-content: center;
 		border: 1px solid #eee;
+
+		:deep() {
+			.big-uni-icons {
+				color: $brand-theme-color !important;
+			}
+		}
 	}
 
 	.list-1 {

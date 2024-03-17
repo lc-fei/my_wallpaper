@@ -9,7 +9,8 @@
 				</navigator>
 			</view>
 			<view class="more" v-else>
-				<navigator url="/pages/classify/classify">
+				<navigator url="/pages/classify/classify" open-type="switchTab">
+					<!-- 还是注意一下这里 -->
 					<view class="body">
 						<image src="../../common/images/more.jpg" mode="aspectFill"></image>
 						<view class="mask">

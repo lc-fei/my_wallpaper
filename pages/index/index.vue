@@ -1,5 +1,5 @@
 <template>
-	<view class="home-layout">
+	<view class="home-layout colorBg">
 		<swiper class="banner" indicator-dots="true" active-class="swiper-active">
 			<swiper-item>
 				<image src="@/common/images/banner1.jpg" mode="aspectFill" />
@@ -14,7 +14,7 @@
 
 		<view class="notice">
 			<view class="left">
-				<uni-icons type="sound-filled" size="20" color="#2AB18D"></uni-icons>
+				<uni-icons type="sound-filled" size="20"></uni-icons>
 				<text>公告：</text>
 			</view>
 			<view class="center">
@@ -34,7 +34,7 @@
 					<template #name>每日推荐</template>
 					<template #custom>
 						<view class="icon">
-							<uni-icons type="calendar" size="30rpx" color="#2AB18D"></uni-icons>
+							<uni-icons type="calendar" size="30rpx"></uni-icons>
 						</view>
 						<view class="data">
 							<uni-dateformat :date="new Date()" format="dd日"></uni-dateformat>
@@ -107,6 +107,12 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+
+			:deep() {
+				.uni-icons {
+					color: $brand-theme-color !important;
+				}
+			}
 		}
 
 		.center {
@@ -136,6 +142,12 @@
 
 
 	.select {
+		:deep() {
+			.uni-icons {
+				color: $brand-theme-color !important;
+			}
+		}
+
 		scroll-view {
 			white-space: nowrap;
 
