@@ -1,0 +1,1 @@
+<view class="classify colorBg"><view class="theme"><view class="body"><theme-item wx:for="{{a}}" wx:for-item="item" u-i="{{item.a}}" bind:__l="__l"></theme-item></view></view></view>

@@ -27,7 +27,6 @@
 					<uni-icons type="star" size="28"></uni-icons>
 					<view class="text">5分</view>
 				</view>
-
 				<view class="box">
 					<uni-icons type="download" size="23"></uni-icons>
 					<view class="text">下载</view>
@@ -36,6 +35,84 @@
 		</view>
 
 
+		<uni-popup ref="infoPopup" type="bottom">
+			<view class="infoPopup">
+				<view class="popHeader">
+					<view></view>
+					<view class="title">壁纸信息</view>
+					<view class="close" @click="clickInfoClose">
+						<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
+					</view>
+				</view>
+				<scroll-view scroll-y>
+					<view class="content">
+						<view class="row">
+							<view class="label">壁纸ID：</view>
+							<text selectable class="value">12312312adfa</text>
+						</view>
+
+						<view class="row">
+							<view class="label">分类：</view>
+							<text class="value class">明星美女</text>
+						</view>
+
+						<view class="row">
+							<view class="label">发布者：</view>
+							<text class="value">咸虾米</text>
+						</view>
+
+						<view class="row">
+							<text class="label">评分：</text>
+							<view class='value roteBox'>
+								<uni-rate readonly touchable value="3.5" size="16" />
+								<text class="score">5分</text>
+							</view>
+						</view>
+
+						<view class="row">
+							<text class="label">摘要：</text>
+							<view class='value'>
+								摘要文字内容填充部分，摘要文字内容填充部分，摘要文字内容填充部分，摘要文字内容填充部分。
+							</view>
+						</view>
+
+						<view class="row">
+							<text class="label">标签：</text>
+							<view class='value tabs'>
+								<view class="tab" v-for="item in 3">标签名</view>
+							</view>
+						</view>
+
+						<view class="copyright">
+							声明：本图片来用户投稿，非商业使用，用于免费学习交流，如侵犯了您的权益，您可以拷贝壁纸ID举报至平台，邮箱513894357@qq.com，管理将删除侵权壁纸，维护您的权益。
+
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+		</uni-popup>
+
+
+		<uni-popup ref="scorePopup" :is-mask-click="false">
+			<view class="scorePopup">
+				<view class="popHeader">
+					<view></view>
+					<view class="title">壁纸评分</view>
+					<view class="close" @click="clickScoreClose">
+						<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
+					</view>
+				</view>
+
+				<view class="content">
+					<uni-rate v-model="userScore" allowHalf />
+					<text class="text">{{userScore}}分</text>
+				</view>
+
+				<view class="footer">
+					<button @click="submitScore" :disabled="!userScore" type="default" size="mini" plain>确认评分</button>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -191,6 +268,110 @@
 
 			.close {
 				padding: 6rpx;
+			}
+		}
+
+		.infoPopup {
+			background: #fff;
+			padding: 30rpx;
+			border-radius: 30rpx 30rpx 0 0;
+			overflow: hidden;
+
+			scroll-view {
+				max-height: 60vh;
+
+				.content {
+					.row {
+						display: flex;
+						padding: 16rpx 0;
+						font-size: 32rpx;
+						line-height: 1.7em;
+
+						.label {
+							color: $text-font-color-3;
+							width: 140rpx;
+							text-align: right;
+							font-size: 30rpx;
+						}
+
+						.value {
+							flex: 1;
+							width: 0;
+						}
+
+						.roteBox {
+							display: flex;
+							align-items: center;
+
+							.score {
+								font-size: 26rpx;
+								color: $text-font-color-2;
+								padding-left: 10rpx;
+							}
+						}
+
+						.tabs {
+							display: flex;
+							flex-wrap: wrap;
+
+							.tab {
+								border: 1px solid $brand-theme-color;
+								color: $brand-theme-color;
+								font-size: 22rpx;
+								padding: 10rpx 30rpx;
+								border-radius: 40rpx;
+								line-height: 1em;
+								margin: 0 10rpx 10rpx 0;
+							}
+						}
+
+						.class {
+							color: $brand-theme-color;
+						}
+
+
+					}
+
+					.copyright {
+						font-size: 28rpx;
+						padding: 20rpx;
+						background: #F6F6F6;
+						color: #666;
+						border-radius: 10rpx;
+						margin: 20rpx 0;
+						line-height: 1.6em;
+					}
+
+				}
+			}
+		}
+
+		.scorePopup {
+			background: #fff;
+			padding: 30rpx;
+			width: 70vw;
+			border-radius: 30rpx;
+
+			.content {
+				padding: 30rpx 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.text {
+					color: #FFCA3E;
+					padding-left: 10rpx;
+					width: 80rpx;
+					line-height: 1em;
+					text-align: right;
+				}
+			}
+
+			.footer {
+				padding: 10rpx 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 			}
 		}
 

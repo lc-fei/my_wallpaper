@@ -1,0 +1,113 @@
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.home-layout {
+  width: 750rpx;
+}
+.home-layout .banner {
+  height: 345rpx;
+  width: 750rpx;
+  overflow: hidden;
+  border-radius: 20rpx;
+}
+.home-layout .banner swiper-item {
+  border-radius: 20rpx;
+  padding: 0 30rpx;
+}
+.home-layout .banner swiper-item image {
+  height: 100%;
+  width: 100%;
+}
+.notice {
+  width: 690rpx;
+  height: 80rpx;
+  display: flex;
+  line-height: 80rpx;
+  background-color: #F9F9F9;
+  border-radius: 80rpx;
+  margin: 0 auto;
+  margin-top: 30rpx;
+}
+.notice .left {
+  width: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notice .left  .uni-icons {
+  color: #28B389 !important;
+}
+.notice .center {
+  flex: 1;
+}
+.notice .center swiper {
+  width: 100%;
+  height: 100%;
+  line-height: 80rpx;
+}
+.notice .center swiper-item {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.notice .right {
+  width: 70rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.select  .uni-icons {
+  color: #28B389 !important;
+}
+.select scroll-view {
+  white-space: nowrap;
+}
+.select .body {
+  width: 720rpx;
+  margin-left: 30rpx;
+}
+.select .body view {
+  margin-right: 15rpx;
+  height: 446rpx;
+  width: 202rpx;
+  display: inline-block;
+}
+.select .body view image {
+  height: 100%;
+  width: 100%;
+}
+.select .body view:last-child {
+  margin-right: 30rpx;
+}
+.theme .body {
+  width: 750rpx;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10rpx;
+  padding: 0 30rpx 30rpx 30rpx;
+}
+swiper-active {
+  background-color: red;
+}
