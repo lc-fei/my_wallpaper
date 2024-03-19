@@ -1,4 +1,11 @@
 
+	/*每个页面公共css */
+view {
+	box-sizing: border-box;
+	margin: 0;
+	border: 0;
+	padding: 0;
+}
 .colorBg {
 	min-height: 100vh;
 	background:

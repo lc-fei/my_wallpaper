@@ -29,17 +29,14 @@
   overflow: hidden;
   position: relative;
 }
-.theme-item .body.data-v-f4eafbca {
+.theme-item .naviga1.data-v-f4eafbca {
   height: 340rpx;
 }
-.theme-item .body navigator.data-v-f4eafbca {
-  height: 340rpx;
-}
-.theme-item .body navigator image.data-v-f4eafbca {
+.theme-item .naviga1 image.data-v-f4eafbca {
   height: 100%;
   width: 100%;
 }
-.theme-item .body navigator .mask.data-v-f4eafbca {
+.theme-item .naviga1 .mask.data-v-f4eafbca {
   width: 100%;
   height: 70rpx;
   position: absolute;
@@ -55,7 +52,7 @@
   font-weight: 600;
   font-size: 30rpx;
 }
-.theme-item .body navigator .tab.data-v-f4eafbca {
+.theme-item .naviga1 .tab.data-v-f4eafbca {
   position: absolute;
   left: 0;
   top: 0;
@@ -69,17 +66,14 @@
   transform: scale(0.8);
   transform-origin: left top;
 }
-.theme-item .more.data-v-f4eafbca {
+.theme-item .naviga2.data-v-f4eafbca {
   height: 340rpx;
 }
-.theme-item .more navigator.data-v-f4eafbca {
-  height: 340rpx;
-}
-.theme-item .more navigator image.data-v-f4eafbca {
+.theme-item .naviga2 image.data-v-f4eafbca {
   height: 100%;
   width: 100%;
 }
-.theme-item .more navigator .mask.data-v-f4eafbca {
+.theme-item .naviga2 .mask.data-v-f4eafbca {
   width: 100%;
   height: 100%;
   position: absolute;
