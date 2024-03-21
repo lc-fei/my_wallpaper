@@ -1,5 +1,6 @@
 <template>
 	<view class="home-layout colorBg">
+		<custom-nav-bar title="首页"></custom-nav-bar>
 		<swiper class="banner" indicator-dots="true" active-class="swiper-active">
 			<swiper-item>
 				<image src="@/common/images/banner1.jpg" mode="aspectFill" />

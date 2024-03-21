@@ -1,5 +1,6 @@
 <template>
 	<view class="classify colorBg">
+		<custom-nav-bar title="分类"></custom-nav-bar>
 		<view class="theme">
 			<view class="body">
 				<theme-item v-for="item in 15"></theme-item>

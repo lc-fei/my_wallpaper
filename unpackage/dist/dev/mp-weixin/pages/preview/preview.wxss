@@ -46,6 +46,7 @@
   width: fit-content;
 }
 .preview .mask .goBack.data-v-2dad6c07 {
+  position: absolute;
   width: 38px;
   height: 38px;
   background: rgba(0, 0, 0, 0.5);

@@ -1,1 +1,1 @@
-<view class="classify colorBg"><view class="theme"><view class="body"><theme-item wx:for="{{a}}" wx:for-item="item" u-i="{{item.a}}" bind:__l="__l"></theme-item></view></view></view>
+<view class="classify colorBg"><custom-nav-bar wx:if="{{a}}" u-i="503decbd-0" bind:__l="__l" u-p="{{a}}"></custom-nav-bar><view class="theme"><view class="body"><theme-item wx:for="{{b}}" wx:for-item="item" u-i="{{item.a}}" bind:__l="__l"></theme-item></view></view></view>

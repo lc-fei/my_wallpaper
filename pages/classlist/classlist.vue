@@ -1,5 +1,6 @@
 <template>
 	<view class="classlist">
+		<custom-nav-bar title="分类"></custom-nav-bar>
 		<view class="content">
 			<navigator url="/pages/preview/preview" class="item" v-for="item in 10">
 				<image src="../../common/images/preview2.jpg" mode="aspectFill"></image>

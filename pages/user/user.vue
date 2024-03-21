@@ -1,5 +1,6 @@
 <template>
 	<view class="userLayout colorBg">
+		<custom-nav-bar title="用户"></custom-nav-bar>
 		<view class="head">
 			<view class="avatar">
 				<image src="../../static/images/xxmLogo.png" mode="aspectFill"></image>

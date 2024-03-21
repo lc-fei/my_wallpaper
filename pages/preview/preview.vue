@@ -7,7 +7,7 @@
 		</swiper>
 
 		<view class="mask" v-if="maskState">
-			<view class="goBack" @click="goBack">
+			<view class="goBack" @click="goBack" :style="{top:getStatusBarHeight()+'px'}">
 				<uni-icons type="back" color="#fff" size="20"></uni-icons>
 			</view>
 			<view class="count">3 / 9</view>
@@ -120,6 +120,12 @@
 	import {
 		ref
 	} from 'vue';
+	import {
+		getStatusBarHeight, // 刘海高度
+		getTitleBarHeight, // 胶囊信息
+		getNavBarHeight, // 
+		getLeftIconLeft // 头条小程序兼容优化
+	} from '@/utils/system.ts'
 	const maskState = ref(true);
 	const infoPopup = ref(null);
 	const scorePopup = ref(null);
@@ -191,6 +197,7 @@
 			}
 
 			.goBack {
+				position: absolute;
 				width: 38px;
 				height: 38px;
 				background: rgba(0, 0, 0, 0.5);
