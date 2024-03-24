@@ -67,8 +67,15 @@
 </template>
 
 <script setup lang="ts">
-	// import { onMounted, ref } from 'vue';
-// import {onReachBottom} from '@dcloudio/uni-app'
+	import { onMounted, ref } from 'vue';
+	import { getHomeBanner } from '@/api/api'
+	import { Root } from '@/api/types'
+	let bannerData = ref<any>({
+	})
+	onMounted(async () => {
+		bannerData.value = await getHomeBanner()
+		console.log(bannerData.value)
+	})
 </script>
 
 <style lang="scss">
