@@ -1,10 +1,11 @@
 <template>
 	<view>
 		<view class="theme-item">
-			<navigator url="/pages/classlist/classlist" class="naviga1" v-if="!isMore">
-				<image src="../../common/images/classify2.jpg" mode="aspectFill"></image>
-				<view class="mask">AI美图</view>
-				<view class="tab">3天前更新</view>
+			<navigator :url="'/pages/classlist/classlist?id=' + data?._id + '&name=' + data?.name" class="naviga1"
+				v-if="!isMore">
+				<image :src="data.picurl" mode="aspectFill"></image>
+				<view class="mask">{{data.name}}</view>
+				<view class="tab">{{time}}天前更新</view>
 			</navigator>
 			<navigator url="/pages/classify/classify" open-type="switchTab" class="naviga2" v-else>
 				<!-- 还是注意一下这里 -->
@@ -20,10 +21,22 @@
 </template>
 
 <script setup lang="ts">
-	defineProps({
+	import { onMounted, ref } from 'vue'
+	import { ClassifyDaum } from '@/api/types'
+	const { isMore, data } = defineProps({
 		isMore: {
 			type: Boolean,
 			default: false
+		},
+		data: {
+			type: Object as () => ClassifyDaum,
+		}
+	})
+	let time = ref<number>(0)
+	//这边生成的是true和undifined
+	onMounted(() => {
+		if (data) {
+			time.value = Math.floor((Date.now() * 1 - data.updateTime) / 1000 / 3600 / 24)
 		}
 	})
 </script>

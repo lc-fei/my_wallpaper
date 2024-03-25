@@ -2,14 +2,8 @@
 	<view class="home-layout colorBg">
 		<custom-nav-bar title="首页"></custom-nav-bar>
 		<swiper class="banner" indicator-dots="true" active-class="swiper-active">
-			<swiper-item>
-				<image src="@/common/images/banner1.jpg" mode="aspectFill" />
-			</swiper-item>
-			<swiper-item>
-				<image src="@/common/images/banner2.jpg" mode="aspectFill" />
-			</swiper-item>
-			<swiper-item>
-				<image src="@/common/images/banner3.jpg" mode="aspectFill" />
+			<swiper-item v-for="item in bannerData" :key="item.sort">
+				<image :src="item.picurl" mode="aspectFill" />
 			</swiper-item>
 		</swiper>
 
@@ -20,8 +14,7 @@
 			</view>
 			<view class="center">
 				<swiper autoplay interval="2000" duration="300" vertical="true">
-					<swiper-item
-						v-for="item in 4">欢迎来到柚见壁纸djwladdjasldjaksldjlawdjaqwjdaksljdoasdujiaos{{item}}</swiper-item>
+					<swiper-item v-for="item in noticeList" :key="item._id">{{item.title}}</swiper-item>
 				</swiper>
 			</view>
 			<view class="right">
@@ -45,8 +38,8 @@
 			</view>
 			<view class="body">
 				<scroll-view scroll-x show-scrollbar="true">
-					<view v-for="item in 6">
-						<image src="../../common/images/preview_small.webp" mode="aspectFill"></image>
+					<view v-for="item in randomList" :key="item._id">
+						<image :src="item.smallPicurl" mode="aspectFill"></image>
 					</view>
 				</scroll-view>
 			</view>
@@ -58,31 +51,58 @@
 				<template #custom>More+</template>
 			</common-title>
 			<view class="body">
-				<theme-item v-for="item in 8"></theme-item>
+				<theme-item v-for="item in classifyData" :data="item" :key="item._id" :isMore="false"></theme-item>
 				<theme-item :isMore="true"></theme-item>
 			</view>
 		</view>
-
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { onMounted, ref } from 'vue';
-	import { getHomeBanner } from '@/api/api'
-	import { Root } from '@/api/types'
-	let bannerData = ref<any>({
-	})
-	onMounted(async () => {
-		bannerData.value = await getHomeBanner()
-		console.log(bannerData.value)
-	})
+	import { ref } from 'vue';
+	import { getHomeBanner, getClassify, apiGetDayRandom, apiGetNotice } from '@/api/api'
+	import { HomeBarDaum, ClassifyDaum, } from '@/api/types'
+	// import { Root } from '@/api/types'
+	const bannerData = ref<HomeBarDaum[] | undefined>(undefined)
+	const classifyData = ref<ClassifyDaum[] | undefined>(undefined)
+
+	const randomList = ref<any>([]);
+	const noticeList = ref<any>([]);
+	// 首页轮播图
+	const myGetHomeBanner = async () => {
+		bannerData.value = (await getHomeBanner()).data
+		console.log('获取首页轮播图', bannerData.value)
+	}
+	// 专题精选
+	const myGetClassify = async () => {
+		classifyData.value = (await getClassify({
+			select: true
+		})).data
+		console.log('获取专题精选', classifyData.value)
+	}
+	const getDayRandom = async () => {
+		let res = await apiGetDayRandom();
+		randomList.value = res.data
+		console.log('获取随机推荐', randomList.value)
+	}
+	const getNotice = async () => {
+		let res = await apiGetNotice({ select: true });
+		noticeList.value = res.data
+		console.log('获取公告', noticeList.value)
+	}
+	getDayRandom()
+	getNotice()
+	myGetHomeBanner()
+	myGetClassify()
 </script>
 
 <style lang="scss">
 	.home-layout {
 		width: 750rpx;
+		box-sizing: border-box;
 
 		.banner {
+			box-sizing: border-box;
 			height: 345rpx;
 			width: 750rpx;
 			overflow: hidden;
@@ -91,10 +111,11 @@
 			swiper-item {
 				border-radius: 20rpx;
 				padding: 0 30rpx;
+				box-sizing: border-box;
 
 				image {
 					height: 100%;
-					width: 100%;
+					width: 690rpx;
 				}
 			}
 		}

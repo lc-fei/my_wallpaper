@@ -1,6 +1,5 @@
 <template>
 	<view class="classlist">
-		<custom-nav-bar title="分类"></custom-nav-bar>
 		<view class="content">
 			<navigator url="/pages/preview/preview" class="item" v-for="item in 10">
 				<image src="../../common/images/preview2.jpg" mode="aspectFill"></image>
@@ -9,10 +8,14 @@
 	</view>
 </template>
 
-<script setup>
+<script setup lang="ts">
+	import { onLoad } from '@dcloudio/uni-app'
+	import { apiWallList } from '@/api/api'
+	import { ref } from 'vue'
+	const getClassList = async () => {
 
+	}
 </script>
-
 <style lang="scss" scoped>
 	.classlist {
 		.content {
