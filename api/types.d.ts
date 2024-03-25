@@ -9,7 +9,7 @@ export interface Config {
 }
 
 
-// getHomeBar
+// 轮播图
 export interface HomeBarRoot {
 	errCode : number
 	errMsg : string
@@ -27,6 +27,7 @@ export interface HomeBarDaum {
 	appid ?: string
 }
 
+// 类型
 export interface ClassifyRoot {
 	errCode : number
 	errMsg : string
@@ -42,4 +43,18 @@ export interface ClassifyDaum {
 	select : boolean
 	updateTime : number
 	_id : string
+	enable ?: boolean
+}
+
+
+// 壁纸
+export interface PreviewDaum {
+	description : string
+	classid : string
+	smallPicurl : string
+	tabs : string[]
+	_id : string
+	score : string
+	nickname : string
+	picurl ?: string
 }

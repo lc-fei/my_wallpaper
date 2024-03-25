@@ -1,8 +1,8 @@
 <template>
 	<view class="preview">
-		<swiper circular>
-			<swiper-item v-for="item in 5">
-				<image @click="maskChange" src="../../common/images/preview1.jpg" mode="aspectFill"></image>
+		<swiper circular :current="index" @change="indexChange">
+			<swiper-item v-for="item in storeClassList">
+				<image @click="maskChange" :src="item.picurl" mode="aspectFill"></image>
 			</swiper-item>
 		</swiper>
 
@@ -10,7 +10,7 @@
 			<view class="goBack" @click="goBack" :style="{top:getStatusBarHeight()+'px'}">
 				<uni-icons type="back" color="#fff" size="20"></uni-icons>
 			</view>
-			<view class="count">3 / 9</view>
+			<view class="count">{{index + 1}} / {{storeClassList.length}}</view>
 			<view class="time">
 				<uni-dateformat :date="new Date()" format="hh:mm"></uni-dateformat>
 			</view>
@@ -116,7 +116,9 @@
 	</view>
 </template>
 
-<script setup>
+<script setup lang="ts">
+	import { PreviewDaum } from '@/api/types'
+	import { onLoad } from '@dcloudio/uni-app'
 	import {
 		ref
 	} from 'vue';
@@ -125,13 +127,10 @@
 		getTitleBarHeight, // 胶囊信息
 		getNavBarHeight, // 
 		getLeftIconLeft // 头条小程序兼容优化
-	} from '@/utils/system.ts'
+	} from '@/utils/system'
 	const maskState = ref(true);
 	const infoPopup = ref(null);
 	const scorePopup = ref(null);
-
-
-
 
 	//点击info弹窗
 	const clickInfo = () => {
@@ -167,6 +166,30 @@
 	//返回上一页
 	const goBack = () => {
 		uni.navigateBack()
+	}
+
+
+	// 数据传递
+	let storeClassList = ref<PreviewDaum[]>(uni.getStorageSync("storeClassList") || null)
+	let index = ref<number>(0)
+
+	storeClassList.value = storeClassList.value.map((item : PreviewDaum) => {
+		return {
+			...item,
+			picurl: item.smallPicurl.replace('_small.webp', '.jpg')
+		}
+	})
+
+	// 拿到id，寻找点击的哪个壁纸
+	onLoad((e) => {
+		if (e) {
+			const { id } = e
+			index.value = storeClassList.value.findIndex(item => item._id === id)
+			console.log(index.value)
+		}
+	})
+	const indexChange = (e : any) => {
+		index.value = e.detail.current
 	}
 </script>
 
