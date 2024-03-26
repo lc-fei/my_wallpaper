@@ -30,3 +30,10 @@ export const apiWallList = (data = {}) => {
 		data
 	})
 }
+
+export const apiSetupScore = (data = {}) => {
+	return request({
+		url: '/setupScore',
+		data
+	})
+}

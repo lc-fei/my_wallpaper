@@ -1,8 +1,9 @@
 <template>
 	<view class="preview">
 		<swiper circular :current="index" @change="indexChange">
-			<swiper-item v-for="item in storeClassList">
-				<image @click="maskChange" :src="item.picurl" mode="aspectFill"></image>
+			<swiper-item v-for="(item, index) in storeClassList">
+				<image v-if="currentList?.includes(index)" @click="maskChange" :src="item.picurl" mode="aspectFill">
+				</image>
 			</swiper-item>
 		</swiper>
 
@@ -48,44 +49,43 @@
 					<view class="content">
 						<view class="row">
 							<view class="label">壁纸ID：</view>
-							<text selectable class="value">12312312adfa</text>
+							<text selectable class="value">{{currentInfo?._id}}</text>
 						</view>
 
 						<view class="row">
 							<view class="label">分类：</view>
-							<text class="value class">明星美女</text>
+							<text class="value class">{{classifyRef}}</text>
 						</view>
 
 						<view class="row">
 							<view class="label">发布者：</view>
-							<text class="value">咸虾米</text>
+							<text class="value">{{currentInfo?.nickname}}</text>
 						</view>
 
 						<view class="row">
 							<text class="label">评分：</text>
 							<view class='value roteBox'>
 								<uni-rate readonly touchable value="3.5" size="16" />
-								<text class="score">5分</text>
+								<text class="score">{{currentInfo?.score}}</text>
 							</view>
 						</view>
 
 						<view class="row">
 							<text class="label">摘要：</text>
 							<view class='value'>
-								摘要文字内容填充部分，摘要文字内容填充部分，摘要文字内容填充部分，摘要文字内容填充部分。
+								{{currentInfo?.description}}
 							</view>
 						</view>
 
 						<view class="row">
 							<text class="label">标签：</text>
 							<view class='value tabs'>
-								<view class="tab" v-for="item in 3">标签名</view>
+								<view class="tab" v-for="item in currentInfo?.tabs">{{item}}</view>
 							</view>
 						</view>
 
 						<view class="copyright">
 							声明：本图片来用户投稿，非商业使用，用于免费学习交流，如侵犯了您的权益，您可以拷贝壁纸ID举报至平台，邮箱513894357@qq.com，管理将删除侵权壁纸，维护您的权益。
-
 						</view>
 					</view>
 				</scroll-view>
@@ -120,7 +120,8 @@
 	import { PreviewDaum } from '@/api/types'
 	import { onLoad } from '@dcloudio/uni-app'
 	import {
-		ref
+		ref,
+		Ref
 	} from 'vue';
 	import {
 		getStatusBarHeight, // 刘海高度
@@ -128,27 +129,42 @@
 		getNavBarHeight, // 
 		getLeftIconLeft // 头条小程序兼容优化
 	} from '@/utils/system'
+	interface UniPopupComponent {
+		open : () => void
+		close : () => void
+	}
 	const maskState = ref(true);
-	const infoPopup = ref(null);
-	const scorePopup = ref(null);
+	const infoPopup = ref<UniPopupComponent | null>(null);
+	const scorePopup = ref<UniPopupComponent | null>(null);
+	const currentInfo = ref<PreviewDaum>()
+	let userScore = ref<number>()
 
 	//点击info弹窗
 	const clickInfo = () => {
-		infoPopup.value.open();
+		if (infoPopup.value) {
+			infoPopup.value.open();
+		}
 	}
 
 	//点击关闭信息弹窗
 	const clickInfoClose = () => {
-		infoPopup.value.close();
+		if (infoPopup.value) {
+			infoPopup.value.close();
+		}
+
 	}
 
 	//评分弹窗
 	const clickScore = () => {
-		scorePopup.value.open();
+		if (scorePopup.value) {
+			scorePopup.value.open();
+		}
 	}
 	//关闭评分框
 	const clickScoreClose = () => {
-		scorePopup.value.close();
+		if (scorePopup.value) {
+			scorePopup.value.close();
+		}
 	}
 
 	//确认评分
@@ -172,6 +188,17 @@
 	// 数据传递
 	let storeClassList = ref<PreviewDaum[]>(uni.getStorageSync("storeClassList") || null)
 	let index = ref<number>(0)
+	const classifyRef = ref<string>()
+	let currentList = ref<Array<number>>([])
+
+	const addList = (index : number) => {
+		currentList.value?.push(
+			index,
+			index === 0 ? storeClassList.value.length - 1 : index - 1,
+			index === storeClassList.value.length ? 0 : index + 1
+		)
+		currentList.value = [...new Set(currentList.value)]
+	}
 
 	storeClassList.value = storeClassList.value.map((item : PreviewDaum) => {
 		return {
@@ -183,13 +210,17 @@
 	// 拿到id，寻找点击的哪个壁纸
 	onLoad((e) => {
 		if (e) {
-			const { id } = e
+			const { id, classify } = e
+			classifyRef.value = classify
 			index.value = storeClassList.value.findIndex(item => item._id === id)
-			console.log(index.value)
+			currentInfo.value = storeClassList.value[index.value]
+			addList(index.value)
 		}
 	})
 	const indexChange = (e : any) => {
 		index.value = e.detail.current
+		currentInfo.value = storeClassList.value[index.value]
+		addList(index.value)
 	}
 </script>
 

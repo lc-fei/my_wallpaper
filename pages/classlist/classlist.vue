@@ -1,7 +1,8 @@
 <template>
 	<view class="classlist">
 		<view class="content">
-			<navigator :url="'/pages/preview/preview?id=' + item._id" class="item" v-for="item in classList">
+			<navigator :url="'/pages/preview/preview?id=' + item._id + '&classify=' + nameRef" class="item"
+				v-for="item in classList">
 				<image :src="item.smallPicurl" mode="aspectFill"></image>
 			</navigator>
 		</view>
@@ -17,6 +18,7 @@
 	const num = ref<number>(1)
 	const idRef = ref<number>()
 	const noData = ref<boolean>(false)
+	const nameRef = ref<string>()
 	const getClassList = async () => {
 		const res = await apiWallList({
 			classid: idRef.value,
@@ -33,6 +35,7 @@
 		if (e) {
 			const { id, name } = e
 			idRef.value = id
+			nameRef.value = name
 			uni.setNavigationBarTitle({
 				title: name
 			})
