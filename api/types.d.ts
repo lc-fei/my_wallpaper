@@ -57,4 +57,6 @@ export interface PreviewDaum {
 	score : string
 	nickname : string
 	picurl ?: string
+	userScore : string
+	isScore : boolean = false
 }

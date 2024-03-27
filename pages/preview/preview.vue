@@ -26,7 +26,7 @@
 
 				<view class="box" @click="clickScore">
 					<uni-icons type="star" size="28"></uni-icons>
-					<view class="text">5分</view>
+					<view class="text">{{currentInfo?.score}}分</view>
 				</view>
 				<view class="box">
 					<uni-icons type="download" size="23"></uni-icons>
@@ -97,19 +97,25 @@
 			<view class="scorePopup">
 				<view class="popHeader">
 					<view></view>
-					<view class="title">壁纸评分</view>
+					<view class="title" v-if="currentInfo?.isScore">已评分~</view>
+					<view class="title" v-else>评分</view>
 					<view class="close" @click="clickScoreClose">
 						<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
 					</view>
 				</view>
 
-				<view class="content">
+				<view class="content" v-if="currentInfo?.isScore">
+					<uni-rate :value="currentInfo.userScore" allowHalf disabled color="#FFCA3E" />
+					<text class="text">{{currentInfo.userScore}}分</text>
+				</view>
+				<view class="content" v-else>
 					<uni-rate v-model="userScore" allowHalf />
 					<text class="text">{{userScore}}分</text>
 				</view>
 
 				<view class="footer">
-					<button @click="submitScore" :disabled="!userScore" type="default" size="mini" plain>确认评分</button>
+					<button @click="submitScore" :disabled="currentInfo?.isScore" type="default" size="mini"
+						plain>确认评分</button>
 				</view>
 			</view>
 		</uni-popup>
@@ -119,6 +125,7 @@
 <script setup lang="ts">
 	import { PreviewDaum } from '@/api/types'
 	import { onLoad } from '@dcloudio/uni-app'
+	import { apiSetupScore } from "@/api/api"
 	import {
 		ref,
 		Ref
@@ -137,7 +144,8 @@
 	const infoPopup = ref<UniPopupComponent | null>(null);
 	const scorePopup = ref<UniPopupComponent | null>(null);
 	const currentInfo = ref<PreviewDaum>()
-	let userScore = ref<number>()
+	let userScore = ref<string>('5')
+
 
 	//点击info弹窗
 	const clickInfo = () => {
@@ -168,8 +176,34 @@
 	}
 
 	//确认评分
-	const submitScore = () => {
-		console.log("评分了");
+	const submitScore = async () => {
+		uni.showLoading({
+			title: '加载中...'
+		})
+		clickScoreClose()
+		const res = await apiSetupScore({
+			classid: classifyRef.value,
+			wallId: currentInfo.value?._id,
+			userScore: userScore.value,
+		})
+		console.log(res, 'ressss')
+		uni.hideLoading()
+		if (res.errCode === 0) {
+			uni.showToast({
+				title: "评分成功",
+				icon: "none"
+			})
+			console.log("评分了");
+			storeClassList.value[index.value].userScore = userScore.value
+			storeClassList.value[index.value].isScore = true
+			uni.setStorageSync('storeClassList', storeClassList)
+		}
+		else {
+			uni.showToast({
+				title: res.errMsg,
+				icon: "none"
+			})
+		}
 	}
 
 

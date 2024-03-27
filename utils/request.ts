@@ -12,7 +12,7 @@ export const request = (config : Config) : Promise<any> => {
 			data,
 			method,
 			header,
-			success: (res) => {
+			success: (res : any) => {
 				if (res.data.errCode === 0) resolve(res.data)
 				else if (res.data.errCode === 400) {
 					uni.showModal({
