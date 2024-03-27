@@ -17,7 +17,7 @@ const _easycom_uni_popup = () => "../../uni_modules/uni-popup/components/uni-pop
 if (!Math) {
   (_easycom_uni_icons + _easycom_uni_dateformat + _easycom_uni_rate + _easycom_uni_popup)();
 }
-const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
+const _sfc_defineComponent = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "preview",
   setup(__props) {
     const maskState = common_vendor.ref(true);
@@ -192,6 +192,20 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       currentInfo.value = storeClassList.value[index.value];
       addList(index.value);
     };
+    common_vendor.onShareAppMessage((e) => {
+      var _a;
+      return {
+        title: "咸虾米壁纸",
+        path: "/pages/preview/preview?id=" + ((_a = currentInfo.value) == null ? void 0 : _a._id) + "&classify=" + classifyRef.value
+      };
+    });
+    common_vendor.onShareTimeline(() => {
+      var _a;
+      return {
+        title: "咸虾米壁纸",
+        query: "id=" + ((_a = currentInfo.value) == null ? void 0 : _a._id) + "&classify=" + classifyRef.value
+      };
+    });
     return (_ctx, _cache) => {
       var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
       return common_vendor.e({
@@ -307,5 +321,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-2dad6c07"], ["__file", "C:/Users/fei/Desktop/my_wallpaper/pages/preview/preview.vue"]]);
+_sfc_defineComponent.__runtimeHooks = 6;
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_defineComponent, [["__scopeId", "data-v-2dad6c07"], ["__file", "C:/Users/fei/Desktop/my_wallpaper/pages/preview/preview.vue"]]);
 wx.createPage(MiniProgramPage);

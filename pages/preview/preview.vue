@@ -123,7 +123,7 @@
 
 <script setup lang="ts">
 	import { PreviewDaum } from '@/api/types'
-	import { onLoad } from '@dcloudio/uni-app'
+	import { onLoad, onShareAppMessage, onShareTimeline } from '@dcloudio/uni-app'
 	import { apiSetupScore, apiWriteDownload } from "@/api/api"
 	import {
 		ref,
@@ -136,6 +136,7 @@
 		getLeftIconLeft // 头条小程序兼容优化
 	} from '@/utils/system'
 	import { error } from 'console';
+
 	interface UniPopupComponent {
 		open : () => void
 		close : () => void
@@ -352,6 +353,25 @@
 		currentInfo.value = storeClassList.value[index.value]
 		addList(index.value)
 	}
+
+
+	// 分享
+
+	onShareAppMessage((e) => {
+		return {
+			title: "咸虾米壁纸",
+			path: "/pages/preview/preview?id=" + currentInfo.value?._id + "&classify=" + classifyRef.value
+		}
+	})
+
+
+	//分享朋友圈
+	onShareTimeline(() => {
+		return {
+			title: "咸虾米壁纸",
+			query: "id=" + currentInfo.value?._id + "&classify=" + classifyRef.value
+		}
+	})
 </script>
 
 <style lang="scss" scoped>
