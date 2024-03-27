@@ -28,7 +28,7 @@
 					<uni-icons type="star" size="28"></uni-icons>
 					<view class="text">{{currentInfo?.score}}分</view>
 				</view>
-				<view class="box">
+				<view class="box" @click="BtDownload">
 					<uni-icons type="download" size="23"></uni-icons>
 					<view class="text">下载</view>
 				</view>
@@ -83,7 +83,6 @@
 								<view class="tab" v-for="item in currentInfo?.tabs">{{item}}</view>
 							</view>
 						</view>
-
 						<view class="copyright">
 							声明：本图片来用户投稿，非商业使用，用于免费学习交流，如侵犯了您的权益，您可以拷贝壁纸ID举报至平台，邮箱513894357@qq.com，管理将删除侵权壁纸，维护您的权益。
 						</view>
@@ -125,7 +124,7 @@
 <script setup lang="ts">
 	import { PreviewDaum } from '@/api/types'
 	import { onLoad } from '@dcloudio/uni-app'
-	import { apiSetupScore } from "@/api/api"
+	import { apiSetupScore, apiWriteDownload } from "@/api/api"
 	import {
 		ref,
 		Ref
@@ -136,6 +135,7 @@
 		getNavBarHeight, // 
 		getLeftIconLeft // 头条小程序兼容优化
 	} from '@/utils/system'
+	import { error } from 'console';
 	interface UniPopupComponent {
 		open : () => void
 		close : () => void
@@ -177,33 +177,40 @@
 
 	//确认评分
 	const submitScore = async () => {
-		uni.showLoading({
-			title: '加载中...'
-		})
-		clickScoreClose()
-		const res = await apiSetupScore({
-			classid: classifyRef.value,
-			wallId: currentInfo.value?._id,
-			userScore: userScore.value,
-		})
-		console.log(res, 'ressss')
-		uni.hideLoading()
-		if (res.errCode === 0) {
-			uni.showToast({
-				title: "评分成功",
-				icon: "none"
+		try {
+			uni.showLoading({
+				title: '加载中...'
 			})
-			console.log("评分了");
-			storeClassList.value[index.value].userScore = userScore.value
-			storeClassList.value[index.value].isScore = true
-			uni.setStorageSync('storeClassList', storeClassList)
-		}
-		else {
-			uni.showToast({
-				title: res.errMsg,
-				icon: "none"
+			clickScoreClose()
+			const res = await apiSetupScore({
+				classid: classifyRef.value,
+				wallId: currentInfo.value?._id,
+				userScore: userScore.value,
 			})
+			console.log(res, 'ressss')
+
+			if (res.errCode === 0) {
+				uni.showToast({
+					title: "评分成功",
+					icon: "none"
+				})
+				console.log("评分了");
+				storeClassList.value[index.value].userScore = userScore.value
+				storeClassList.value[index.value].isScore = true
+				uni.setStorageSync('storeClassList', storeClassList)
+			}
+			else {
+				uni.showToast({
+					title: res.errMsg,
+					icon: "none"
+				})
+			}
+		} catch (e) {
+			//TODO handle the exception
+			console.log(e.message)
+			uni.hideLoading()
 		}
+
 	}
 
 
@@ -218,6 +225,95 @@
 		uni.navigateBack()
 	}
 
+	// 下载
+	const BtDownload = async () => {
+		// #ifdef H5
+		uni.showModal({
+			content: "请长按保存壁纸",
+			showCancel: false
+		})
+		// #endif
+		// #ifndef H5
+		try {
+			uni.showLoading({
+				title: '加载中...',
+				mask: true
+			})
+			let {
+				classid,
+				_id: wallId
+			} = currentInfo.value as PreviewDaum;
+			let res = await apiWriteDownload({
+				classid,
+				wallId
+			})
+			// 获取临时网址
+			uni.getImageInfo({
+				src: currentInfo.value?.picurl as string,
+				success: (res) => {
+					const { path } = res
+					// 下载图片
+					uni.saveImageToPhotosAlbum({
+						filePath: path,
+						success: (res) => {
+							console.log('chenggl')
+						},
+						fail: (err) => {
+							if (err.errMsg == 'saveImageToPhotosAlbum:fail cancel') {
+								uni.showToast({
+									title: '保存失败，请重新点击下载',
+									icon: "none"
+								})
+								return;
+							}
+							// 如果不是用户主动取消 =》 权限问题
+							uni.showModal({
+								title: "授权提示",
+								content: "需要授权保存相册",
+								success: res => {
+									if (res.confirm) {
+										uni.openSetting({
+											success: (setting) => {
+												console.log(
+													setting);
+												if (setting
+													.authSetting[
+													'scope.writePhotosAlbum'
+												]) {
+													uni.showToast({
+														title: "获取授权成功",
+														icon: "none"
+													})
+												} else {
+													uni.showToast({
+														title: "获取权限失败",
+														icon: "none"
+													})
+												}
+											}
+										})
+									}
+								}
+							})
+						},
+						complete: () => {
+							uni.hideLoading()
+						}
+					})
+				},
+				fail: (e) => {
+					console.log('获取临时地址失败', e)
+					throw new Error(e)
+				}
+			})
+		} catch (e) {
+			//TODO handle the exception
+			uni.showModal({
+				content: e.message,
+			})
+		}
+		// #endif
+	}
 
 	// 数据传递
 	let storeClassList = ref<PreviewDaum[]>(uni.getStorageSync("storeClassList") || null)

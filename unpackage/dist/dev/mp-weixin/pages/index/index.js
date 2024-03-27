@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const common_assets = require("../../common/assets.js");
+const api_api = require("../../api/api.js");
+require("../../utils/request.js");
 if (!Array) {
   const _easycom_custom_nav_bar2 = common_vendor.resolveComponent("custom-nav-bar");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
@@ -20,46 +21,85 @@ if (!Math) {
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
+    const bannerData = common_vendor.ref(void 0);
+    const classifyData = common_vendor.ref(void 0);
+    const randomList = common_vendor.ref([]);
+    const noticeList = common_vendor.ref([]);
+    const myGetHomeBanner = async () => {
+      bannerData.value = (await api_api.getHomeBanner()).data;
+      console.log("获取首页轮播图", bannerData.value);
+    };
+    const myGetClassify = async () => {
+      classifyData.value = (await api_api.getClassify({
+        select: true
+      })).data;
+      console.log("获取专题精选", classifyData.value);
+    };
+    const getDayRandom = async () => {
+      let res = await api_api.apiGetDayRandom();
+      randomList.value = res.data;
+      console.log("获取随机推荐", randomList.value);
+    };
+    const getNotice = async () => {
+      let res = await api_api.apiGetNotice({ select: true });
+      noticeList.value = res.data;
+      console.log("获取公告", noticeList.value);
+    };
+    getDayRandom();
+    getNotice();
+    myGetHomeBanner();
+    myGetClassify();
     return (_ctx, _cache) => {
       return {
         a: common_vendor.p({
           title: "首页"
         }),
-        b: common_assets._imports_0,
-        c: common_assets._imports_1,
-        d: common_assets._imports_2,
-        e: common_vendor.p({
+        b: common_vendor.f(bannerData.value, (item, k0, i0) => {
+          return {
+            a: item.picurl,
+            b: item.sort
+          };
+        }),
+        c: common_vendor.p({
           type: "sound-filled",
           size: "20"
         }),
-        f: common_vendor.f(4, (item, k0, i0) => {
+        d: common_vendor.f(noticeList.value, (item, k0, i0) => {
           return {
-            a: common_vendor.t(item)
+            a: common_vendor.t(item.title),
+            b: item._id
           };
         }),
-        g: common_vendor.p({
+        e: common_vendor.p({
           type: "forward",
           size: "20",
           color: "#A7A7A7"
         }),
-        h: common_vendor.p({
+        f: common_vendor.p({
           type: "calendar",
           size: "30rpx"
         }),
-        i: common_vendor.p({
+        g: common_vendor.p({
           date: /* @__PURE__ */ new Date(),
           format: "dd日"
         }),
-        j: common_vendor.f(6, (item, k0, i0) => {
-          return {};
-        }),
-        k: common_assets._imports_3,
-        l: common_vendor.f(8, (item, k0, i0) => {
+        h: common_vendor.f(randomList.value, (item, k0, i0) => {
           return {
-            a: "9fa7d43a-7-" + i0
+            a: item.smallPicurl,
+            b: item._id
           };
         }),
-        m: common_vendor.p({
+        i: common_vendor.f(classifyData.value, (item, k0, i0) => {
+          return {
+            a: item._id,
+            b: "9fa7d43a-7-" + i0,
+            c: common_vendor.p({
+              data: item,
+              isMore: false
+            })
+          };
+        }),
+        j: common_vendor.p({
           isMore: true
         })
       };

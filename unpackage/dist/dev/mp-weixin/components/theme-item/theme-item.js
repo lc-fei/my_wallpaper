@@ -15,17 +15,31 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     isMore: {
       type: Boolean,
       default: false
+    },
+    data: {
+      type: Object
     }
   },
   setup(__props) {
+    const { isMore, data } = __props;
+    let time = common_vendor.ref(0);
+    common_vendor.onMounted(() => {
+      if (data) {
+        time.value = Math.floor((Date.now() * 1 - data.updateTime) / 1e3 / 3600 / 24);
+      }
+    });
     return (_ctx, _cache) => {
+      var _a, _b;
       return common_vendor.e({
         a: !__props.isMore
       }, !__props.isMore ? {
-        b: common_assets._imports_0$3
+        b: __props.data.picurl,
+        c: common_vendor.t(__props.data.name),
+        d: common_vendor.t(common_vendor.unref(time)),
+        e: "/pages/classlist/classlist?id=" + ((_a = __props.data) == null ? void 0 : _a._id) + "&name=" + ((_b = __props.data) == null ? void 0 : _b.name)
       } : {
-        c: common_assets._imports_1$1,
-        d: common_vendor.p({
+        f: common_assets._imports_0,
+        g: common_vendor.p({
           type: "more-filled",
           size: "34rpx",
           color: "#fff"
