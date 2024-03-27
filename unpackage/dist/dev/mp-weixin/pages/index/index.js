@@ -45,6 +45,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       noticeList.value = res.data;
       console.log("获取公告", noticeList.value);
     };
+    const goPreview = (id) => {
+      common_vendor.index.setStorageSync("storeClassList", randomList.value);
+      common_vendor.index.navigateTo({
+        url: "/pages/preview/preview?id=" + id
+      });
+    };
     getDayRandom();
     getNotice();
     myGetHomeBanner();
@@ -86,7 +92,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         h: common_vendor.f(randomList.value, (item, k0, i0) => {
           return {
             a: item.smallPicurl,
-            b: item._id
+            b: item._id,
+            c: common_vendor.o(($event) => goPreview(item._id), item._id)
           };
         }),
         i: common_vendor.f(classifyData.value, (item, k0, i0) => {

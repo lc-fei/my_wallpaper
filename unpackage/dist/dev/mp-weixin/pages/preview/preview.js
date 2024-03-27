@@ -2,6 +2,7 @@
 const common_vendor = require("../../common/vendor.js");
 const api_api = require("../../api/api.js");
 const utils_system = require("../../utils/system.js");
+const utils_common = require("../../utils/common.js");
 require("../../utils/request.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
@@ -181,6 +182,8 @@ const _sfc_defineComponent = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.onLoad((e) => {
       if (e) {
         const { id, classify } = e;
+        if (!id)
+          utils_common.gotoHome();
         classifyRef.value = classify;
         index.value = storeClassList.value.findIndex((item) => item._id === id);
         currentInfo.value = storeClassList.value[index.value];

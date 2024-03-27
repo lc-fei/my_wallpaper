@@ -346,7 +346,7 @@
 					left: 0,
 					right: 0,
 					bottom: 0,
-					paddingBottom: this.safeAreaInsets + 'px',
+					// paddingBottom: this.safeAreaInsets + 'px',
 					backgroundColor: this.bg
 				}
 				// TODO 兼容 type 属性 ，后续会废弃
@@ -361,10 +361,10 @@
 				this.popupstyle = 'center'
 				//微信小程序下，组合动画会出现文字向上闪动问题，再此做特殊处理
 				// #ifdef MP-WEIXIN
-					this.ani = ['fade']
+				this.ani = ['fade']
 				// #endif
 				// #ifndef MP-WEIXIN
-					this.ani = ['zoom-out', 'fade']
+				this.ani = ['zoom-out', 'fade']
 				// #endif
 				this.transClass = {
 					position: 'fixed',

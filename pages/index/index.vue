@@ -38,7 +38,7 @@
 			</view>
 			<view class="body">
 				<scroll-view scroll-x show-scrollbar="true">
-					<view v-for="item in randomList" :key="item._id">
+					<view v-for="item in randomList" :key="item._id" @click="goPreview(item._id)">
 						<image :src="item.smallPicurl" mode="aspectFill"></image>
 					</view>
 				</scroll-view>
@@ -89,6 +89,12 @@
 		let res = await apiGetNotice({ select: true });
 		noticeList.value = res.data
 		console.log('获取公告', noticeList.value)
+	}
+	const goPreview = (id : string) => {
+		uni.setStorageSync('storeClassList', randomList.value)
+		uni.navigateTo({
+			url: '/pages/preview/preview?id=' + id,
+		})
 	}
 	getDayRandom()
 	getNotice()

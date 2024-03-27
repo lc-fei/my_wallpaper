@@ -136,7 +136,7 @@
 		getLeftIconLeft // 头条小程序兼容优化
 	} from '@/utils/system'
 	import { error } from 'console';
-
+	import { gotoHome } from '@/utils/common'
 	interface UniPopupComponent {
 		open : () => void
 		close : () => void
@@ -342,6 +342,7 @@
 	onLoad((e) => {
 		if (e) {
 			const { id, classify } = e
+			if (!id) gotoHome()
 			classifyRef.value = classify
 			index.value = storeClassList.value.findIndex(item => item._id === id)
 			currentInfo.value = storeClassList.value[index.value]

@@ -14,6 +14,7 @@
 	import { apiWallList } from '@/api/api'
 	import { ref } from 'vue'
 	import { PreviewDaum } from '@/api/types'
+	import { gotoHome } from '@/utils/common'
 	const classList = ref<PreviewDaum[]>([])
 	const num = ref<number>(1)
 	const idRef = ref<number>()
@@ -34,6 +35,9 @@
 	onLoad(async (e) => {
 		if (e) {
 			const { id, name } = e
+			if (!id) {
+				gotoHome()
+			}
 			idRef.value = id
 			nameRef.value = name
 			uni.setNavigationBarTitle({

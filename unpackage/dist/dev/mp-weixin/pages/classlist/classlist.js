@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const api_api = require("../../api/api.js");
+const utils_common = require("../../utils/common.js");
 require("../../utils/request.js");
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "classlist",
@@ -25,6 +26,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     common_vendor.onLoad(async (e) => {
       if (e) {
         const { id, name } = e;
+        if (!id) {
+          utils_common.gotoHome();
+        }
         idRef.value = id;
         nameRef.value = name;
         common_vendor.index.setNavigationBarTitle({
