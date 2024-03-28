@@ -44,3 +44,9 @@ export const apiWriteDownload = (data = {}) => {
 		data
 	})
 }
+export const apiSearchData = (data = {}) => {
+	return request({
+		url: '/searchWall',
+		data
+	})
+}

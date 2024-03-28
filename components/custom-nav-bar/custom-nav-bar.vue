@@ -5,7 +5,7 @@
 			<view class="statusBar" :style="{height:getStatusBarHeight()+'px'}"></view>
 			<view class=" titleBar" :style="{height: getTitleBarHeight() + 'px', marginleft: getLeftIconLeft() + 'px'}">
 				<view class=" title">{{title}}</view>
-				<navigator url="/pawgews/search/search" class="search">
+				<navigator url="/pages/search/search" class="search">
 					<uni-icons class="icon" type="search" color="#888" size="18"></uni-icons>
 					<text class="text">搜索</text>
 				</navigator>

@@ -1,5 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const api_api = require("../../api/api.js");
+require("../../utils/request.js");
 if (!Array) {
   const _component_uni_search_bar = common_vendor.resolveComponent("uni-search-bar");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
@@ -19,33 +21,69 @@ const _sfc_main = {
       pageSize: 12,
       keyword: ""
     });
-    const historySearch = common_vendor.ref(["搜索词1", "搜索词2", "搜索词3", "搜索词4"]);
+    const historySearch = common_vendor.ref(common_vendor.index.getStorageSync("historySearch") || []);
     const recommendList = common_vendor.ref(["美女", "帅哥", "宠物", "卡通"]);
     const noData = common_vendor.ref(false);
-    common_vendor.ref(false);
-    const classList = common_vendor.ref([{
-      _id: 123123,
-      smallPicurl: "https://mp-0cb878b7-99ec-44ea-8246-12b123304b05.cdn.bspapp.com/xxmBizhi/20231102/1698905562410_0_small.webp"
-    }]);
+    const noSearch = common_vendor.ref(false);
+    const classList = common_vendor.ref([]);
     const onSearch = () => {
+      common_vendor.index.showLoading();
+      historySearch.value = [.../* @__PURE__ */ new Set([queryParams.value.keyword, ...historySearch.value])].slice(0, 10);
+      common_vendor.index.setStorageSync("historySearch", historySearch.value);
+      initParams(queryParams.value.keyword);
+      searchData();
+      console.log(queryParams.value.keyword);
     };
     const onClear = () => {
+      initParams();
     };
     const clickTab = (value) => {
+      initParams(value);
+      onSearch();
     };
     const removeHistory = () => {
       common_vendor.index.showModal({
         title: "是否清空历史搜索？",
         success: (res) => {
           if (res.confirm) {
-            console.log("确认删除");
+            common_vendor.index.removeStorageSync("historySearch");
+            historySearch.value = [];
           }
         }
       });
     };
+    const searchData = async () => {
+      try {
+        let res = await api_api.apiSearchData(queryParams.value);
+        classList.value = [...classList.value, ...res.data];
+        common_vendor.index.setStorageSync("storgClassList", classList.value);
+        if (queryParams.value.pageSize > res.data.length)
+          noData.value = true;
+        if (res.data.length == 0 && classList.value.length == 0)
+          noSearch.value = true;
+        console.log(res);
+      } finally {
+        common_vendor.index.hideLoading();
+      }
+    };
+    const initParams = (value = "") => {
+      classList.value = [];
+      noData.value = false;
+      noSearch.value = false;
+      queryParams.value = {
+        pageNum: 1,
+        pageSize: 12,
+        keyword: value || ""
+      };
+    };
     common_vendor.onReachBottom(() => {
+      if (noData.value)
+        return;
+      queryParams.value.pageNum++;
+      searchData();
     });
     common_vendor.onUnload(() => {
+      common_vendor.index.removeStorageSync("storgClassList", classList.value);
     });
     return (_ctx, _cache) => {
       return common_vendor.e({
@@ -58,42 +96,51 @@ const _sfc_main = {
           placeholder: "搜索",
           modelValue: queryParams.value.keyword
         }),
-        f: common_vendor.p({
+        f: !classList.value.length || noSearch.value
+      }, !classList.value.length || noSearch.value ? common_vendor.e({
+        g: historySearch.value.length
+      }, historySearch.value.length ? {
+        h: common_vendor.p({
           type: "trash",
           size: "25"
         }),
-        g: common_vendor.o(removeHistory),
-        h: common_vendor.f(historySearch.value, (tab, k0, i0) => {
+        i: common_vendor.o(removeHistory),
+        j: common_vendor.f(historySearch.value, (tab, k0, i0) => {
           return {
             a: common_vendor.t(tab),
             b: tab,
-            c: common_vendor.o(($event) => clickTab(), tab)
+            c: common_vendor.o(($event) => clickTab(tab), tab)
           };
-        }),
-        i: common_vendor.f(recommendList.value, (tab, k0, i0) => {
+        })
+      } : {}, {
+        k: common_vendor.f(recommendList.value, (tab, k0, i0) => {
           return {
             a: common_vendor.t(tab),
             b: tab,
-            c: common_vendor.o(($event) => clickTab(), tab)
+            c: common_vendor.o(($event) => clickTab(tab), tab)
           };
-        }),
-        j: common_vendor.p({
+        })
+      }) : {}, {
+        l: noSearch.value
+      }, noSearch.value ? {
+        m: common_vendor.p({
           mode: "search",
           icon: "http://cdn.uviewui.com/uview/empty/search.png"
-        }),
-        k: common_vendor.f(classList.value, (item, k0, i0) => {
+        })
+      } : common_vendor.e({
+        n: common_vendor.f(classList.value, (item, k0, i0) => {
           return {
             a: item.smallPicurl,
-            b: item._id
+            b: `/pages/preview/preview?id=${item._id}`,
+            c: item._id
           };
         }),
-        l: `/pages/preview/preview`,
-        m: noData.value || classList.value.length
+        o: noData.value || classList.value.length
       }, noData.value || classList.value.length ? {
-        n: common_vendor.p({
+        p: common_vendor.p({
           status: noData.value ? "noMore" : "loading"
         })
-      } : {});
+      } : {}));
     };
   }
 };

@@ -38,8 +38,15 @@ const apiWriteDownload = (data = {}) => {
     data
   });
 };
+const apiSearchData = (data = {}) => {
+  return utils_request.request({
+    url: "/searchWall",
+    data
+  });
+};
 exports.apiGetDayRandom = apiGetDayRandom;
 exports.apiGetNotice = apiGetNotice;
+exports.apiSearchData = apiSearchData;
 exports.apiSetupScore = apiSetupScore;
 exports.apiWallList = apiWallList;
 exports.apiWriteDownload = apiWriteDownload;
